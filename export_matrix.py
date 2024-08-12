@@ -29,11 +29,11 @@ trainstr,taskstr,modstr = "Trainee","Task","Module"
 def create_matrix(data):
     for i in data:
         df = i[0]
-        sheetname = i[1] + ".xlsx"
+        sheetname = i[1]+"_Track" + ".xlsx"
         df.dropna(subset=[helpstr],inplace=True)
-        df.to_excel(sheetname,index=False)
-        
-        print(df)
+        pivot_df = df.pivot_table(index=[modstr, taskstr], columns=trainstr, values=helpstr, aggfunc='count').fillna(0)
+        pivot_df.to_excel(sheetname,index=True)
+
         # for item in all_trainees:
         #     cur_item = df.drop(
         #         df[df[trainstr] != item].index, inplace=False)
